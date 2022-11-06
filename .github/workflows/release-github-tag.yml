@@ -29,8 +29,8 @@ jobs:
           docker build \
           --build-arg VERSION=${{ env.TAG }} \
           -f src/main/docker/initContainer.Dockerfile \
-          -t aerogear/keycloak-metrics-spi:${{ env.TAG }} \
-          -t aerogear/keycloak-metrics-spi:latest \
+          -t ${{ secrets.DOCKER_URL }}/${{ github.event.repository.name }}:${{ env.TAG }} \
+          -t ${{ secrets.DOCKER_URL }}/${{ github.event.repository.name }}:latest \
           .
       - name: Log into Docker Hub
         if: github.event_name != 'pull_request'

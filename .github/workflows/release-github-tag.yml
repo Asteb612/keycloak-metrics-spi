@@ -21,9 +21,6 @@ jobs:
       - name: Get the tag name
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
-      - name: Set version from git tag
-        run: ./gradlew jar -P version=${{ env.TAG }}
-
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
@@ -53,6 +50,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           file: src/main/docker/initContainer.Dockerfile
+          build-args: VERSION=${{ env.TAG }}
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
